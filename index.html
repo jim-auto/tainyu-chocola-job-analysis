@@ -65,6 +65,9 @@ canvas { max-height: 500px; }
 <div class="card">
   <h2>都道府県別 求人数ランキング</h2>
   <canvas id="prefChart"></canvas>
+  <div class="insight" style="margin-top:15px">
+    <strong>東京都が713件で2位・大阪（320件）にダブルスコア以上</strong>。神奈川・福岡・愛知が200件超で続く。上位5都府県で全体の約4割を占め、大都市圏への集中が顕著。
+  </div>
 </div>
 
 <!-- 地方別 -->
@@ -98,6 +101,9 @@ canvas { max-height: 500px; }
 <div class="card">
   <h2>業種別 平均体入日給</h2>
   <canvas id="genreSalaryChart"></canvas>
+  <div class="insight" style="margin-top:15px">
+    <strong>会員制ラウンジが平均16,600円でトップ</strong>だがサンプル5件と少数。クラブ（14,800円）が実質的な高給業種。姉キャバ・昼キャバは6,000円台と低め。最大値ではキャバクラが110,000円で突出（愛知の外れ値）。
+  </div>
 </div>
 
 <!-- 給与分布 -->
@@ -142,12 +148,18 @@ canvas { max-height: 500px; }
   <div style="overflow-x:auto">
     <table class="heatmap" id="heatmapTable"></table>
   </div>
+  <div class="insight" style="margin-top:15px">
+    <strong>東京のガールズバー（327件）とコンカフェ（194件）が突出</strong>。北海道はスナック（59件）が最多で業態構造が独特。熊本・福岡はクラブが目立ち、兵庫はスナック・ラウンジ中心でキャバクラが少ない。
+  </div>
 </div>
 
 <!-- 都市別業種構成 -->
 <div class="card grid-full">
   <h2>主要都市の業種構成比（スタックバー）</h2>
   <canvas id="stackChart" style="max-height:500px"></canvas>
+  <div class="insight" style="margin-top:15px">
+    <strong>東京はガールズバー＋コンカフェで全体の7割超</strong>と「カジュアル業態」偏重。一方、北海道・兵庫はスナック比率が高く、熊本・福岡はクラブ比率が高い。都市ごとに業種ポートフォリオが大きく異なる。
+  </div>
 </div>
 
 </div>
