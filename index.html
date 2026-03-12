@@ -109,6 +109,33 @@ canvas { max-height: 500px; }
   </div>
 </div>
 
+<!-- 給与レンジ（箱ひげ図風） -->
+<div class="card grid-full">
+  <h2>都道府県別 体入日給レンジ（箱ひげ図）</h2>
+  <canvas id="boxChart" style="max-height:500px"></canvas>
+  <div class="insight" style="margin-top:15px">
+    <strong>熊本県のレンジが最も広い</strong>（Q1:5,000 〜 Q3:30,000円）。東京は中央値7,000円でレンジは狭め。地方は高額帯が平均を引き上げている。
+  </div>
+</div>
+
+<!-- 狙い目エリア散布図 -->
+<div class="card grid-full">
+  <h2>狙い目エリア（求人数 × 平均日給）</h2>
+  <canvas id="scatterChart" style="max-height:500px"></canvas>
+  <div class="insight" style="margin-top:15px">
+    <strong>右上ほど「求人が多く高給」な狙い目</strong>。熊本は求人91件で平均19,112円と突出。福岡・大阪は求人も多く平均12,000円超で好バランス。
+  </div>
+</div>
+
+<!-- 業種別 地域集中度 -->
+<div class="card grid-full">
+  <h2>業種別 地域集中度（上位8都道府県）</h2>
+  <canvas id="concChart" style="max-height:600px"></canvas>
+  <div class="insight" style="margin-top:15px">
+    <strong>クラブは福岡に21.6%が集中</strong>、スナックは北海道が16%でトップ。ガールズバー・キャバクラは関東に分散。業種ごとに地域特性が大きく異なる。
+  </div>
+</div>
+
 <!-- ヒートマップ -->
 <div class="card grid-full">
   <h2>都道府県 × 業種 ヒートマップ</h2>
@@ -268,6 +295,104 @@ const colors = ['#e94560','#FB8D8D','#f39c12','#2ecc71','#3498db','#9b59b6','#1a
     },
     options: { plugins: { legend: { display: false } },
       scales: { y: { grid: { color: '#1f1f2f' } } } }
+  });
+})();
+
+// ===== NEW DATA =====
+const boxData = [{"name":"東京都","min":5000,"q1":5500,"median":7000,"q3":10000,"max":53500,"n":130},{"name":"千葉県","min":5000,"q1":5000,"median":8000,"q3":13000,"max":40000,"n":116},{"name":"神奈川県","min":5000,"q1":5500,"median":7000,"q3":10000,"max":50000,"n":115},{"name":"福岡県","min":5000,"q1":6000,"median":10000,"q3":15000,"max":50000,"n":94},{"name":"静岡県","min":5000,"q1":5250,"median":7000,"q3":8000,"max":17000,"n":87},{"name":"埼玉県","min":5000,"q1":5000,"median":6000,"q3":8000,"max":50000,"n":85},{"name":"愛知県","min":5000,"q1":6000,"median":8000,"q3":12000,"max":110000,"n":70},{"name":"大阪府","min":5000,"q1":7000,"median":8000,"q3":15000,"max":50000,"n":67},{"name":"新潟県","min":5000,"q1":6000,"median":7000,"q3":10000,"max":19500,"n":42},{"name":"熊本県","min":5000,"q1":5000,"median":10500,"q3":30000,"max":60000,"n":40},{"name":"広島県","min":5000,"q1":5000,"median":10000,"q3":15000,"max":45000,"n":37},{"name":"兵庫県","min":5000,"q1":5500,"median":10000,"q3":20000,"max":30000,"n":33},{"name":"北海道","min":5000,"q1":5500,"median":8000,"q3":10000,"max":20000,"n":33},{"name":"京都府","min":5000,"q1":7000,"median":10000,"q3":16000,"max":40000,"n":23},{"name":"沖縄県","min":5000,"q1":5500,"median":7000,"q3":8000,"max":20000,"n":19},{"name":"宮城県","min":5000,"q1":5000,"median":6000,"q3":9000,"max":18000,"n":12}];
+const scatterData = [{"name":"東京都","count":200,"avg":11159},{"name":"大阪府","count":200,"avg":12466},{"name":"神奈川県","count":200,"avg":8626},{"name":"愛知県","count":200,"avg":11548},{"name":"福岡県","count":200,"avg":12326},{"name":"埼玉県","count":200,"avg":8181},{"name":"千葉県","count":176,"avg":10277},{"name":"北海道","count":171,"avg":8860},{"name":"静岡県","count":166,"avg":7582},{"name":"兵庫県","count":134,"avg":13212},{"name":"広島県","count":102,"avg":13640},{"name":"沖縄県","count":92,"avg":8020},{"name":"熊本県","count":91,"avg":19112},{"name":"新潟県","count":84,"avg":7833},{"name":"宮城県","count":48,"avg":8167},{"name":"京都府","count":44,"avg":13681}];
+const concData = {"クラブ":[{"name":"福岡県","count":19,"pct":21.6},{"name":"愛知県","count":14,"pct":15.9},{"name":"熊本県","count":14,"pct":15.9},{"name":"大阪府","count":9,"pct":10.2},{"name":"新潟県","count":7,"pct":8.0},{"name":"東京都","count":4,"pct":4.5},{"name":"神奈川県","count":4,"pct":4.5},{"name":"京都府","count":4,"pct":4.5}],"ガールズバー":[{"name":"東京都","count":110,"pct":15.4},{"name":"神奈川県","count":82,"pct":11.5},{"name":"千葉県","count":73,"pct":10.2},{"name":"大阪府","count":71,"pct":9.9},{"name":"埼玉県","count":59,"pct":8.3},{"name":"愛知県","count":52,"pct":7.3},{"name":"福岡県","count":47,"pct":6.6},{"name":"北海道","count":47,"pct":6.6}],"キャバクラ":[{"name":"埼玉県","count":82,"pct":12.4},{"name":"神奈川県","count":78,"pct":11.8},{"name":"静岡県","count":74,"pct":11.2},{"name":"千葉県","count":69,"pct":10.4},{"name":"愛知県","count":52,"pct":7.9},{"name":"東京都","count":51,"pct":7.7},{"name":"福岡県","count":50,"pct":7.6},{"name":"大阪府","count":45,"pct":6.8}],"スナック":[{"name":"北海道","count":59,"pct":16.0},{"name":"兵庫県","count":48,"pct":13.0},{"name":"福岡県","count":46,"pct":12.5},{"name":"埼玉県","count":35,"pct":9.5},{"name":"愛知県","count":33,"pct":9.0},{"name":"広島県","count":32,"pct":8.7},{"name":"熊本県","count":24,"pct":6.5},{"name":"静岡県","count":23,"pct":6.2}],"ラウンジ":[{"name":"大阪府","count":43,"pct":13.1},{"name":"兵庫県","count":38,"pct":11.6},{"name":"静岡県","count":33,"pct":10.1},{"name":"愛知県","count":31,"pct":9.5},{"name":"北海道","count":30,"pct":9.2},{"name":"広島県","count":23,"pct":7.0},{"name":"福岡県","count":22,"pct":6.7},{"name":"埼玉県","count":17,"pct":5.2}]};
+
+// ===== 9. Box Plot (floating bar) =====
+(() => {
+  const sorted = [...boxData].sort((a,b) => b.median - a.median);
+  new Chart(document.getElementById('boxChart'), {
+    type: 'bar',
+    data: {
+      labels: sorted.map(d => d.name),
+      datasets: [
+        { label: 'min〜Q1', data: sorted.map(d => [d.min, d.q1]), backgroundColor: '#3498db40', borderColor: '#3498db', borderWidth: 1, borderSkipped: false },
+        { label: 'Q1〜中央値', data: sorted.map(d => [d.q1, d.median]), backgroundColor: '#2ecc71', borderColor: '#2ecc71', borderWidth: 1, borderSkipped: false },
+        { label: '中央値〜Q3', data: sorted.map(d => [d.median, d.q3]), backgroundColor: '#e94560', borderColor: '#e94560', borderWidth: 1, borderSkipped: false },
+        { label: 'Q3〜max', data: sorted.map(d => [d.q3, d.max]), backgroundColor: '#FB8D8D40', borderColor: '#FB8D8D', borderWidth: 1, borderSkipped: false }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 12 } },
+        tooltip: { callbacks: { label: ctx => { const d = sorted[ctx.dataIndex]; return `min:¥${d.min.toLocaleString()} Q1:¥${d.q1.toLocaleString()} 中央値:¥${d.median.toLocaleString()} Q3:¥${d.q3.toLocaleString()} max:¥${d.max.toLocaleString()} (n=${d.n})`; } } }
+      },
+      scales: {
+        x: { stacked: true, grid: { color: '#1f1f2f' }, ticks: { callback: v => '¥'+(v/1000)+'K' } },
+        y: { stacked: true, ticks: { font: { size: 12 }, autoSkip: false }, afterFit: a => { a.width = 90; } }
+      }
+    }
+  });
+})();
+
+// ===== 10. Scatter: Count vs Avg Salary =====
+(() => {
+  new Chart(document.getElementById('scatterChart'), {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        data: scatterData.map(d => ({ x: d.count, y: d.avg, label: d.name })),
+        backgroundColor: scatterData.map(d => d.avg > 15000 ? red : d.avg > 12000 ? '#f39c12' : pink),
+        borderColor: scatterData.map(d => d.avg > 15000 ? red : d.avg > 12000 ? '#f39c12' : pink),
+        pointRadius: scatterData.map(d => Math.max(6, d.count / 20)),
+        pointHoverRadius: 12
+      }]
+    },
+    options: {
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => `${ctx.raw.label}: ${ctx.raw.x}件 / ¥${ctx.raw.y.toLocaleString()}` } }
+      },
+      scales: {
+        x: { title: { display: true, text: '求人数', color: '#aaa' }, grid: { color: '#1f1f2f' } },
+        y: { title: { display: true, text: '平均体入日給', color: '#aaa' }, grid: { color: '#1f1f2f' }, ticks: { callback: v => '¥'+v.toLocaleString() } }
+      }
+    },
+    plugins: [{
+      afterDraw: chart => {
+        const ctx = chart.ctx;
+        ctx.font = '11px sans-serif';
+        ctx.fillStyle = '#ccc';
+        ctx.textAlign = 'center';
+        chart.data.datasets[0].data.forEach((d, i) => {
+          const meta = chart.getDatasetMeta(0).data[i];
+          ctx.fillText(d.label, meta.x, meta.y - 10);
+        });
+      }
+    }]
+  });
+})();
+
+// ===== 11. Genre Concentration =====
+(() => {
+  const genres = Object.keys(concData);
+  const allPrefs = [...new Set(genres.flatMap(g => concData[g].map(d => d.name)))];
+  const datasets = genres.map((genre, i) => ({
+    label: genre,
+    data: allPrefs.map(pref => {
+      const found = concData[genre].find(d => d.name === pref);
+      return found ? found.pct : 0;
+    }),
+    backgroundColor: colors[i]
+  }));
+
+  new Chart(document.getElementById('concChart'), {
+    type: 'bar',
+    data: { labels: allPrefs, datasets },
+    options: {
+      plugins: { legend: { position: 'bottom' },
+        tooltip: { callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.raw}%` } } },
+      scales: {
+        x: { ticks: { maxRotation: 45 } },
+        y: { grid: { color: '#1f1f2f' }, ticks: { callback: v => v + '%' }, title: { display: true, text: '全国シェア', color: '#aaa' } }
+      }
+    }
   });
 })();
 
